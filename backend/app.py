@@ -1,6 +1,10 @@
 from flask import Flask
+import os
 
 app = Flask(__name__)
+
+DEBUG = bool(os.environ.get("DEBUG", False))
+app.config["DEBUG"] = DEBUG
 
 
 @app.route("/")
