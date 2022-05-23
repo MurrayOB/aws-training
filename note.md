@@ -11,3 +11,6 @@ To install everything: run "pipenv install" (npm install)
 For vscode: Click python interpretor - "Enter Interpreter path..." - enter: "backend\.venv\Scripts\python.exe"
 
 Flask only recognises "app.py" or "wsgi.py" when running flask run
+
+To use the env file:
+pipenv install python-dotenv
