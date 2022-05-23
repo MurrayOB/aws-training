@@ -1,3 +1,5 @@
+# backend re-creation steps:
+
 Setup backend Notes/Steps:
 
 Create backend folder
@@ -14,3 +16,7 @@ Flask only recognises "app.py" or "wsgi.py" when running flask run
 
 To use the env file:
 pipenv install python-dotenv
+
+# frontend re-creation steps:
+
+npx create-react-app frontend
