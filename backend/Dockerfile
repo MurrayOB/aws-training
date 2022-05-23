@@ -6,8 +6,7 @@ WORKDIR /app
 EXPOSE 5050
 # copies pipfile and pipfile.lock to working directory
 # can use there names because they're in the same directory as the docker file
-COPY Pipfile ./
-COPY Pipfile.lock ./
+COPY Pipfile Pipfile.lock ./
 # install pipenv 
 RUN pip install pipenv
 # RUN pipenv lock --clear
@@ -18,4 +17,5 @@ RUN pip install -r requirements.txt
 # copies all file to directory app
 COPY . ./
 # starts server
-CMD ["python", "app.py"]
+ENTRYPOINT [ "python" ]
+CMD ["app.py"]

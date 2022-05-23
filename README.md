@@ -20,3 +20,27 @@ pipenv install python-dotenv
 # frontend re-creation steps:
 
 npx create-react-app frontend
+
+# docker commands
+
+docker images
+
+docker build . -t react-app-api
+
+docker run -p 5050:5050 react-app-api
+
+docker exec -it quirky_wilson bash
+
+ls -la
+
+cat requirements.txt
+
+docker exec it name sh
+
+docker stop containername
+
+docker exec mongoimage mongo --username root --password root
+
+docker network ls
+
+docker network inspect network_id
