@@ -1,0 +1,15 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "DOCKERRUN_IMAGE_NAME",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 80
+    },
+    {
+      "ContainerPort": 443
+    }
+  ]
+}

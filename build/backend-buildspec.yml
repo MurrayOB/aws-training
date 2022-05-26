@@ -1,0 +1,36 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_REPO_NAME: backend
+
+phases:
+  pre_build:
+    commands:
+      - AWS_ACCOUNT_ID=149415349108
+      - AWS_REGION=eu-west-1
+      - IMAGE_TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
+      - IMAGE_TAG_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  build:
+    on-failure: ABORT
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -f backend/Dockerfile -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER backend
+      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER $IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER $IMAGE_TAG_LATEST
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_TAG
+      - docker push $IMAGE_TAG_LATEST
+      # Set the image name in Dockerrun.aws.json
+      - echo Setting up Dockerrun.aws.json
+      - sed -i "s|DOCKERRUN_IMAGE_NAME|$IMAGE_TAG|g" build/Dockerrun.aws.api.json
+      - mv build/Dockerrun.aws.api.json Dockerrun.aws.json
+artifacts:
+  files:
+    - Dockerrun.aws.json
