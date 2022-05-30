@@ -37,4 +37,3 @@ artifacts:
     - "**/*"
   discard-paths: yes
   base-directory: frontend/build
-# Source of help: https://codinglatte.com/posts/angular/automate-deployment-of-angular-apps-using-aws-codebuild/
