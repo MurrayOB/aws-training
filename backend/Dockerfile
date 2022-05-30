@@ -17,7 +17,7 @@ COPY . ./
 ##############################
 FROM base AS production
 ARG FLASK_ENV=production
-ENV FLASK_ENV=${NODE_ENV}
+ENV FLASK_ENV=${FLASK_ENV}
 
 WORKDIR /usr/src/app
 
@@ -29,7 +29,6 @@ RUN pip install -r requirements.txt
 COPY . ./
 COPY --from=build /usr/src/app/ .
 
-USER py
 EXPOSE 5050
 
 # starts server
