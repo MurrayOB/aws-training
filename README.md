@@ -2,7 +2,16 @@
 
 - managed image: Ubuntu, Standard, aws/codebuild/5.0, Env Type: Linux, Enabled Privileged, New Service Role
 
-# S3 bucket for frontend
+# AWS Code build Backend:
+
+Must create a ECR for the docker image specified in the buildspec.yml
+Must add "AWS: "ecr:\*" on codebuild role
+
+# AWS Code build Frontend:
+
+Must add "AWS: "s3:\*" on codebuild role
+
+## S3 bucket for frontend
 
 '''
 {
