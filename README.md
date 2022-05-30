@@ -1,3 +1,44 @@
+# code build
+
+- managed image: Ubuntu, Standard, aws/codebuild/5.0, Env Type: Linux, Enabled Privileged, New Service Role
+
+# S3 bucket for frontend
+
+'''
+{
+"Version": "2012-10-17",
+"Statement": [
+{
+"Sid": "CodeBuildPermission",
+"Effect": "Allow",
+"Principal": {
+"AWS": "code build service build"
+},
+"Action": "s3:*",
+"Resource": "arn:aws:s3:::aws-web-app-dev/*"
+},
+{
+"Sid": "CodeBuildPermission2",
+"Effect": "Allow",
+"Principal": {
+"AWS": "Codebuild service build arn"
+},
+"Action": "s3:*",
+"Resource": "arn:aws:s3:::aws-web-app-dev"
+},
+{
+"Sid": "PublicObjects",
+"Effect": "Allow",
+"Principal": {
+"AWS": "*"
+},
+"Action": "s3:GetObject",
+"Resource": "arn:aws:s3:::aws-web-app-dev/*"
+}
+]
+}
+'''
+
 # aws setup
 
 1. Create application on EBS
