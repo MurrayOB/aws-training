@@ -2,13 +2,13 @@ version: 0.2
 
 env:
   variables:
-    IMAGE_REPO_NAME: backend
+    IMAGE_REPO_NAME: aws-web-app-dev-flask
 
 phases:
   pre_build:
     commands:
       - AWS_ACCOUNT_ID=149415349108
-      - AWS_REGION=eu-west-1
+      - AWS_REGION=us-east-1
       - IMAGE_TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
       - IMAGE_TAG_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
       - echo Logging in to Amazon ECR...
