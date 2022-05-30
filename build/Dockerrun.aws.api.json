@@ -1,15 +1,16 @@
 {
   "AWSEBDockerrunVersion": "2",
-  "Image": {
-    "Name": "DOCKERRUN_IMAGE_NAME",
-    "Update": "true"
-  },
-  "Ports": [
+  "containerDefinitions": [
     {
-      "ContainerPort": 80
-    },
-    {
-      "ContainerPort": 443
+      "name": "flask-app",
+      "image": "aws-web-app-dev-flask",
+      "update": "true",
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 443
+        }
+      ]
     }
   ]
 }
