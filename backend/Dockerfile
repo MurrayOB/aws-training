@@ -29,8 +29,8 @@ RUN pip install -r requirements.txt
 COPY . ./
 COPY --from=build /usr/src/app/ .
 
-EXPOSE 5050
+EXPOSE 80
 
 # starts server
-ENTRYPOINT [ "python" ]
-CMD ["app.py"]
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["python", "app.py"]
