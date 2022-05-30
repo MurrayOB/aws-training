@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Proof of AWS.</p>
+        <p>Latest AWS.</p>
       </header>
     </div>
   );
