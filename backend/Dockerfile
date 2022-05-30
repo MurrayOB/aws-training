@@ -1,21 +1,37 @@
 # installs python and pip
 FROM python:3.9.2
+
+##############################
+FROM base AS build
 # can be any name (folder app)
-WORKDIR /app
-# where we run the server
-EXPOSE 5050
+WORKDIR /usr/src/app
+
 # copies pipfile and pipfile.lock to working directory
-# can use there names because they're in the same directory as the docker file
 COPY Pipfile Pipfile.lock ./
-# install pipenv 
 RUN pip install pipenv
-# RUN pipenv lock --clear
-# get dependencies from lock file
 RUN pipenv lock --requirements > requirements.txt
-# install dependencies, they're installed globally, no need for .venv
 RUN pip install -r requirements.txt
 # copies all file to directory app
 COPY . ./
+
+##############################
+FROM base AS production
+ARG FLASK_ENV=production
+ENV FLASK_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+COPY Pipfile Pipfile.lock ./
+RUN pip install pipenv
+RUN pipenv lock --requirements > requirements.txt
+RUN pip install -r requirements.txt
+# copies all file to directory app
+COPY . ./
+COPY --from=build /usr/src/app/ .
+
+USER py
+EXPOSE 5050
+
 # starts server
 ENTRYPOINT [ "python" ]
 CMD ["app.py"]
