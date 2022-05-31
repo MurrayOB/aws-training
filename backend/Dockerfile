@@ -32,5 +32,5 @@ COPY --from=build /usr/src/app/ .
 EXPOSE 80
 
 # starts server
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["python", "app.py"]
+ENTRYPOINT ["python"]
+CMD ["app.py"]
