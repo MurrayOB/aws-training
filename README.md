@@ -24,9 +24,9 @@
 
 # FRONTEND STEPS:
 
-## S3 bucket policy for frontend
+## 1. Create S3 bucket for frontend
 
-1. Create public S3 Bucket
+#### S3 Bucket Policy
 
 ```json
 {
@@ -57,7 +57,7 @@
 }
 ```
 
-2. Create CodePipeline + CodeBuild
+#### 2. Create CodePipeline + CodeBuild
 
 Must add
 
@@ -67,15 +67,18 @@ Must add
 }
 ```
 
-on codebuild role
+on codebuild service role
 
 # BACKEND STEPS:
 
-- Create EB
-  For Elastic Beanstalk environment otherwise an error will occur when trying to use ECR (docker image):
-  Must add policy **AmazonEC2ContainerRegistryReadOnly** on aws-elasticbeanstalk-ec2-role
+#### 1. Create Elastic Beanstalk app
 
-- **Create** an ECR for the docker image specified in the buildspec.yml
+#### 2. Create an ECR for the docker image specified in the buildspec.yml
+
+- Add policy **AmazonEC2ContainerRegistryReadOnly** on aws-elasticbeanstalk-ec2-role so that it can use the ECR docker image
+
+#### 3. Create a CodePipeline & CodeBUild
+
 - Must add ecr:\* permissions to codebuild service role
 
 ECR Permissions on Codebuild service role
@@ -128,7 +131,7 @@ For vscode: Click python interpretor - "Enter Interpreter path..." - enter: "bac
 
 Flask only recognises "app.py" or "wsgi.py" when running flask run
 
-To install: (env, db-operations)
+Packages to install: (env, db-operations)
 
 ```console
 pipenv install python-dotenv
