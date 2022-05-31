@@ -95,14 +95,19 @@ For vscode: Click python interpretor - "Enter Interpreter path..." - enter: "bac
 Flask only recognises "app.py" or "wsgi.py" when running flask run
 
 To install: (env, db-operations)
-pipenv install python-dotenv
-pipenv install psycopg2-binary
+
+- ```console
+      pipenv install python-dotenv
+  ```
+- pipenv install psycopg2-binary
 
 # frontend re-creation steps:
 
 npx create-react-app frontend
 
-# docker commands
+# Other
+
+## Docker commands
 
 docker images
 
