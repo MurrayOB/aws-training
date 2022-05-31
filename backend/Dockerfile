@@ -1,6 +1,5 @@
 # installs python and pip
 FROM python:3.9.3 AS base
-RUN apk add --no-cache tini
 
 ##############################
 FROM base AS build
@@ -31,7 +30,6 @@ COPY . .
 COPY --from=build /usr/src/app/ .
 
 # starts server
-USER python
 EXPOSE 80
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["python", "app.py"]
+ENTRYPOINT ["python"]
+CMD ["app.py"]
