@@ -31,5 +31,5 @@ COPY --from=build /usr/src/app/ .
 
 # starts server
 EXPOSE 80
-ENTRYPOINT ["python"]
-CMD ["app.py"]
+ENTRYPOINT ["python", "app.py"]
+# CMD ["app.py"]
