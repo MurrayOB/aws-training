@@ -1,45 +1,32 @@
 # App name example: 'aws-web-app-dev'
 
-# code build
+# AWS Example Overview
 
-- managed image: Ubuntu, Standard, aws/codebuild/5.0, Env Type: Linux, Enabled Privileged, New Service Role
+1. Create repo hosted on GitHub called 'your-project-name'.
+2. Create Flask app (backend) inside that repo.
+3. Create React app (frontend) inside that repo.
+4. Create Build folder with build configurations inside that repo.
+5. Create an S3 bucket for the frontend.
+6. Create a CodePipeline for the frontend (include CodeBuild)
+7. Create an Elastic Beanstalk App on AWS.
+8. Create an environment, example: dev, for that app.
+9. Create an ECR (Elastic Container Registry) for the docker image.
+10. Create a CodePipeline for the backend (including CodeBuild) that deploys to the EB app.
 
-# AWS Code build Backend:
+# CodeBuild setup, both frontend and backend
 
-**Create** an ECR for the docker image specified in the buildspec.yml
-Must add ecr:\* permissions to codebuild service role
+- managed image: Ubuntu
+- Standard
+- aws/codebuild/5.0
+- Env Type: Linux
+- Enabled Privileged
+- New Service Role
 
-```json
-  {
-            "Effect": "Allow",
-            "Action": [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:GetAuthorizationToken",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart"
-            ],
-            "Resource": "*"
-        },
-```
+# FRONTEND STEPS:
 
-For Elastic Beanstalk environment otherwise an error will occur when trying to use ECR (docker image):
-Must add policy **AmazonEC2ContainerRegistryReadOnly** on aws-elasticbeanstalk-ec2-role
+## S3 bucket policy for frontend
 
-# AWS Code build Frontend:
-
-Must add
-
-```json
-{
-  "AWS": "s3:*"
-}
-```
-
-on codebuild role
-
-## S3 bucket for frontend
+1. Create public S3 Bucket
 
 ```json
 {
@@ -70,25 +57,72 @@ on codebuild role
 }
 ```
 
-# aws setup
+2. Create CodePipeline + CodeBuild
 
-1. Create application on EBS
-2. Create environment
-3. Create code pipeline
-   - New Service Role
-4. Create a CodeBuild
+Must add
 
-# backend re-creation steps:
+```json
+{
+  "AWS": "s3:*"
+}
+```
+
+on codebuild role
+
+# BACKEND STEPS:
+
+- Create EB
+  For Elastic Beanstalk environment otherwise an error will occur when trying to use ECR (docker image):
+  Must add policy **AmazonEC2ContainerRegistryReadOnly** on aws-elasticbeanstalk-ec2-role
+
+- **Create** an ECR for the docker image specified in the buildspec.yml
+- Must add ecr:\* permissions to codebuild service role
+
+ECR Permissions on Codebuild service role
+
+```json
+  {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetAuthorizationToken",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart"
+            ],
+            "Resource": "*"
+        },
+```
+
+# Backend project re-creation steps (Flask):
 
 Setup backend Notes/Steps:
 
-Create backend folder
-Create .venv folder
-Create main.py file
-Run: pipenv install flask
+1. Create backend folder
+2. Create .venv folder
+3. Create main.py file
+4. Run:
 
-To run: "pipenv shell" in project directory
-To install everything: run "pipenv install" (npm install)
+```console
+pipenv install flask
+```
+
+To run:
+
+```console
+pipenv shell
+```
+
+in project directory
+
+To install everything run
+
+```console
+pipenv install
+```
+
+(npm install)
 
 For vscode: Click python interpretor - "Enter Interpreter path..." - enter: "backend\.venv\Scripts\python.exe"
 
@@ -96,14 +130,16 @@ Flask only recognises "app.py" or "wsgi.py" when running flask run
 
 To install: (env, db-operations)
 
-- ```console
-      pipenv install python-dotenv
-  ```
-- pipenv install psycopg2-binary
+```console
+pipenv install python-dotenv
+pipenv install psycopg2-binary
+```
 
-# frontend re-creation steps:
+# Frontend project re-creation steps (React):
 
+```console
 npx create-react-app frontend
+```
 
 # Other
 
