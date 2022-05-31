@@ -1,5 +1,5 @@
 # installs python and pip
-FROM python:3.9.0 AS base
+FROM python:3.9.2 AS base
 
 ##############################
 FROM base AS build
