@@ -15,6 +15,9 @@ PORT = os.environ.get("PORT", 5050)
 def welcome():
     return "Welcome, go to /data to see a connection!"
 
+@app.route("/test")
+def test():
+    return "This is a test."
 
 @app.route("/data")
 def data():
