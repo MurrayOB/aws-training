@@ -12,7 +12,7 @@ RUN pip install pipenv
 RUN pipenv lock --requirements > requirements.txt
 RUN pip install -r requirements.txt
 # copies all file to directory app
-COPY . ./
+COPY . .
 
 ##############################
 FROM base AS production
@@ -26,11 +26,11 @@ RUN pip install pipenv
 RUN pipenv lock --requirements > requirements.txt
 RUN pip install -r requirements.txt
 # copies all file to directory app
-COPY . ./
+COPY . .
 COPY --from=build /usr/src/app/ .
 
-EXPOSE 80
-
 # starts server
-ENTRYPOINT ["python"]
-CMD ["app.py"]
+USER python
+EXPOSE 80
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["python", "app.py"]
