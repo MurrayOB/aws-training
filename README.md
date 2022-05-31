@@ -1,53 +1,74 @@
+# App name example: 'aws-web-app-dev'
+
 # code build
 
 - managed image: Ubuntu, Standard, aws/codebuild/5.0, Env Type: Linux, Enabled Privileged, New Service Role
 
 # AWS Code build Backend:
 
-Must create a ECR for the docker image specified in the buildspec.yml
-Must add "AWS: "ecr:\*" on codebuild role
-Must add policy AmazonEC2ContainerRegistryReadOnly on aws-elasticbeanstalk-ec2-role
+**Create** an ECR for the docker image specified in the buildspec.yml
+Must add ecr:\* permissions to codebuild service role
+
+```json
+  {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetAuthorizationToken",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart"
+            ],
+            "Resource": "*"
+        },
+```
+
+For Elastic Beanstalk environment otherwise an error will occur when trying to use ECR (docker image):
+Must add policy **AmazonEC2ContainerRegistryReadOnly** on aws-elasticbeanstalk-ec2-role
 
 # AWS Code build Frontend:
 
-Must add "AWS: "s3:\*" on codebuild role
+Must add
+
+```json
+{
+  "AWS": "s3:*"
+}
+```
+
+on codebuild role
 
 ## S3 bucket for frontend
 
-'''
+```json
 {
-"Version": "2012-10-17",
-"Statement": [
-{
-"Sid": "CodeBuildPermission",
-"Effect": "Allow",
-"Principal": {
-"AWS": "code build service build"
-},
-"Action": "s3:*",
-"Resource": "arn:aws:s3:::aws-web-app-dev/*"
-},
-{
-"Sid": "CodeBuildPermission2",
-"Effect": "Allow",
-"Principal": {
-"AWS": "Codebuild service build arn"
-},
-"Action": "s3:*",
-"Resource": "arn:aws:s3:::aws-web-app-dev"
-},
-{
-"Sid": "PublicObjects",
-"Effect": "Allow",
-"Principal": {
-"AWS": "*"
-},
-"Action": "s3:GetObject",
-"Resource": "arn:aws:s3:::aws-web-app-dev/*"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CodeBuildPermission",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "code build service role"
+      },
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::aws-web-app-dev/*",
+        "arn:aws:s3:::aws-web-app-dev"
+      ]
+    },
+    {
+      "Sid": "PublicObjects",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::aws-web-app-dev/*"
+    }
+  ]
 }
-]
-}
-'''
+```
 
 # aws setup
 
