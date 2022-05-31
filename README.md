@@ -6,6 +6,7 @@
 
 Must create a ECR for the docker image specified in the buildspec.yml
 Must add "AWS: "ecr:\*" on codebuild role
+Must add policy AmazonEC2ContainerRegistryReadOnly on aws-elasticbeanstalk-ec2-role
 
 # AWS Code build Frontend:
 
