@@ -9,11 +9,12 @@ app = Flask(__name__)
 DEBUG = bool(os.environ.get("DEBUG", False))
 app.config["DEBUG"] = DEBUG
 PORT = os.environ.get("PORT", 5050)
+ENVTEST = os.environ.get("ENVTEST", 'Not working properly')
 
 
 @app.route("/")
 def welcome():
-    return "Welcome, go to /data to see a connection!"
+    return "Welcome, go to /data to see a connection! This app is " + ENVTEST
 
 @app.route("/test")
 def test():
