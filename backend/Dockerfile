@@ -1,5 +1,6 @@
 # installs python and pip
-FROM python:3.9.2 AS base
+FROM python:3.9.3 AS base
+RUN apk add --no-cache tini
 
 ##############################
 FROM base AS build
