@@ -12,6 +12,7 @@
 8. Create an environment, example: dev, for that app.
 9. Create an ECR (Elastic Container Registry) for the docker image.
 10. Create a CodePipeline for the backend (including CodeBuild) that deploys to the EB app.
+11. Add a domain name and SSL certificate
 
 # CodeBuild setup, both frontend and backend
 
@@ -97,6 +98,43 @@ ECR Permissions on Codebuild service role
             "Resource": "*"
         },
 ```
+
+# domain name setup
+
+#### 1. Purchase a domain on namecheap
+
+- choose nameservers as basic nameservers (not custom)
+  https://medium.com/swlh/register-an-external-domain-with-aws-api-gateway-using-an-aws-certificate-414a1568d162
+
+- redirect email with alias "admin" and your email.
+
+#### 2. Create SSL with AWS Certificate Manager
+
+- add yourdomain.com and \*.yourdomain.com for any sub domains (this is needed regardless).
+- select email validation.
+
+#### 3. Change DNS to AWS using Route53
+
+1. Go to Hosted Zones - Create Hosted Zone.
+2. Add new name servers from AWS to Namecheap.
+
+#### 4. Create AWS Cloudfront distribution
+
+1. Create, choose s3 bucket, redirect HTTP to HTTPS.
+2. Under settings, add alternative domain name: yourdomain.com and www.yourdomain.com (Cost is more expensive accessing s3 than cloudfront)
+3. Add SSL certificate (from one created earlier)
+4. Default root object - (index.html)
+
+#### 5. Turn off S3 bucket static hosting
+
+- Static hosting must be turned off so that all requests go to cloudfront
+
+#### 6. Redirect traffic to cloudfront using Route53
+
+1. Go to Hosted Zones - yourdomain.com Zone
+2. Create Record - A record, Alias, 'Route traffic' to cloudfront distribution
+3. Create another record - C name record, with subdomain www, and its going to have a value not an alias, value of yourdomain.com
+   https://www.whatsmydns.net/ - to check if its propogated
 
 # Backend project re-creation steps (Flask):
 
