@@ -176,6 +176,12 @@ pipenv install python-dotenv
 pipenv install psycopg2-binary
 ```
 
+## Troubleshooting
+
+```console
+pip3 install -r requirements.txt
+```
+
 # Frontend project re-creation steps (React):
 
 ```console
