@@ -1,4 +1,6 @@
-# App name example: 'aws-web-app-dev'
+Guideline for deploying React frontend and Flask backend to AWS EBS. 
+
+## App name example: 'aws-web-app-dev'
 
 # AWS Example Overview
 
